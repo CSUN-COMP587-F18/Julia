@@ -1,0 +1,21 @@
+ @testset "Tests using @test_formany" begin
+ 
+        #For each x in (10,100), for each y in (x+10,1000) sampling near x+10,
+        #for each z in (y-5,∞), x+5 < z
+        @test_formany 10<x<100, x+10<y<<1000, y-5<z<Inf, x+5 < z
+        
+        #Test 1000 times that log is increasing on (0,∞).
+        @test_formany ntests = 1000 Inf>x>0,Inf>y>0, x<y-->log(x)<log(y)
+        
+        #Try to test 100 times, but stop after 100_000 tests, that
+        #f(x) = x^2 is strictly increasing. Strictly speaking this test could
+        #error, but it probably won't.
+        @test_formany ntests = 100 maxtests = 100_000 0<x<10, 0<y<100, x^2>y^2-->x>y
+        
+        #Test that f(x) = x^3 is convex on (0,100)
+        # any two points on the graph of the function lies above or on the graph
+        @test_formany 0<a<1, 0<x<100, 0<y<100, (a*x+(1-a)*y)^3<=a*x^3+(1-a)*y^3
+        
+         #Fails because f(x) = x^3 is not convex over (-100,100)
+        @test_formany 0<a<1,-100<x<100,-100<y<100,(a*x+(1-a)*y)^3<a*x^3+(1-a)*y^3
+end

@@ -34,3 +34,5 @@ end
 	@test tan(y) == MyNumber2(1.5574077246549023)
 	@test log(y) == MyNumber2(0.0)
 	@test exp(y) == MyNumber2(2.718281828459045)
+
+#test
